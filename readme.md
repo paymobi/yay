@@ -4,12 +4,12 @@
 
 1. <code>composer require paymobi/yay</code>
 
-Note: TOKEN_VALUE can be found at Paymobi repmain.io account
-
 ## How to use
 
 ```php
 <?php
+
+use Yay\Yay;
 
 $input = json_decode(file_get_contents("php://input"));
 
