@@ -1,12 +1,12 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
-        'name' => 'paymobi/yay',
+        'reference' => 'c34d8ca8330e606ffc2b00279f406960c249b2d8',
+        'name' => 'marciovalim/yay',
         'dev' => true,
     ),
     'versions' => array(
@@ -18,6 +18,15 @@
             'aliases' => array(),
             'reference' => '10dcfce151b967d20fde1b34ae6640712c3891bc',
             'dev_requirement' => true,
+        ),
+        'marciovalim/yay' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'c34d8ca8330e606ffc2b00279f406960c249b2d8',
+            'dev_requirement' => false,
         ),
         'myclabs/deep-copy' => array(
             'pretty_version' => '1.x-dev',
@@ -36,15 +45,6 @@
             'aliases' => array(),
             'reference' => '2d589921f23d869846a52c541247e0bafca61ab3',
             'dev_requirement' => true,
-        ),
-        'paymobi/yay' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'reference' => NULL,
-            'dev_requirement' => false,
         ),
         'phar-io/manifest' => array(
             'pretty_version' => 'dev-master',
