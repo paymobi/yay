@@ -26,11 +26,5 @@
     "files": [
       "src/Yay.php"
     ]
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://marciovalim.repo.repman.io"
-    }
-  ]
+  }
 }
