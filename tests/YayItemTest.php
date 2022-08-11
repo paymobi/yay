@@ -329,6 +329,29 @@ final class YayItemTest extends TestCase
     $this->assertNull($errors);
   }
 
+  public function testCustom(): void
+  {
+    $errorMessage = 'not pass in custom validator';
+    $schema = ["document_type" => Yay::item()->custom($errorMessage, function ($value) {
+      return $value == 'cpf' || $value == 'rg';
+    })];
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertStringContainsString($errorMessage, $errors['document_type']);
+
+    $errors = $this->yayValidate($schema, array('document_type' => '222.222.333-90'));
+    $this->assertStringContainsString($errorMessage, $errors['document_type']);
+
+    $errors = $this->yayValidate($schema, array('document_type' => 'rgg'));
+    $this->assertStringContainsString($errorMessage, $errors['document_type']);
+
+    $errors = $this->yayValidate($schema, array('document_type' => 'rg'));
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, array('document_type' => 'cpf'));
+    $this->assertNull($errors);
+  }
+
   private function yayValidate($schema, $array)
   {
     return Yay::validate($schema, $this->_formatAsObj($array));
