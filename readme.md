@@ -2,8 +2,7 @@
 
 ## How to install
 
-1. <code>composer config --global --auth http-basic.acme.repo.repman.io token TOKEN_VALUE</code>
-2. <code>composer require acme/yay</code>
+1. <code>composer require paymobi/yay</code>
 
 Note: TOKEN_VALUE can be found at Paymobi repmain.io account
 
