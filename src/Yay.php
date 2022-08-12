@@ -11,7 +11,7 @@ class Yay
     return new YayItem();
   }
 
-  public static function validate(array $yayItemsSchema, ?object $values): ?array
+  public static function validate(array $yayItemsSchema, ?object $values, $strict = false): ?array
   {
     if ($values == null)
       $values = (object)[];
@@ -21,6 +21,14 @@ class Yay
       $hasKey  = isset($values->$key);
       $error = $yayItem->validate($hasKey ? $values->$key : null);
       if ($error) $errors[$key] = $error;
+    }
+
+    if ($strict) {
+      foreach ($values as $key => $_value) {
+        if (!isset($yayItemsSchema[$key])) {
+          $errors[$key] = 'is not allowed in the schema';
+        }
+      }
     }
 
     return count($errors) == 0 ? null : $errors;
@@ -154,6 +162,22 @@ class YayItem
   {
     $this->_addCheck(new YayCheck($message, function ($value) {
       return is_string($value) && ctype_digit($value);
+    }));
+    return $this;
+  }
+
+  public function strIsAlpha($message = 'can have only alpha characters'): YayItem
+  {
+    $this->_addCheck(new YayCheck($message, function ($value) {
+      return ctype_alpha($value);
+    }));
+    return $this;
+  }
+
+  public function strIsUpperAlphaNumeric($message = 'can have only uppercase characters'): YayItem
+  {
+    $this->_addCheck(new YayCheck($message, function ($value) {
+      return is_string($value) && preg_match('/^[A-Z]+[A-Z0-9._]+$/', $value);
     }));
     return $this;
   }

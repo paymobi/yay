@@ -212,6 +212,45 @@ final class YayItemTest extends TestCase
     $this->assertStringContainsString('max length of 2', $errors['groups']);
   }
 
+  public function testStrIsAlpha(): void
+  {
+    $errorMessage = 'can have only alpha characters';
+    $schema = ["uf" => Yay::item()->strIsAlpha()];
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertStringContainsString($errorMessage, $errors['uf']);
+
+    $errors = $this->yayValidate($schema, ['uf' => []]);
+    $this->assertStringContainsString($errorMessage, $errors['uf']);
+
+    $errors = $this->yayValidate($schema, ['uf' => '12f']);
+    $this->assertStringContainsString($errorMessage, $errors['uf']);
+
+    $errors = $this->yayValidate($schema, ['uf' => 'RJ']);
+    $this->assertNull($errors);
+  }
+
+  public function testStrIsUpperAlphaNumeric(): void
+  {
+    $errorMessage = 'can have only uppercase characters';
+    $schema = ["name" => Yay::item()->strIsUpperAlphaNumeric()];
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertStringContainsString($errorMessage, $errors['name']);
+
+    $errors = $this->yayValidate($schema, ['name' => []]);
+    $this->assertStringContainsString($errorMessage, $errors['name']);
+
+    $errors = $this->yayValidate($schema, ['name' => 'Márcio']);
+    $this->assertStringContainsString($errorMessage, $errors['name']);
+
+    $errors = $this->yayValidate($schema, ['name' => 'MÁRCIO 28!']);
+    $this->assertStringContainsString($errorMessage, $errors['name']);
+
+    $errors = $this->yayValidate($schema, ['name' => 'RJ2']);
+    $this->assertNull($errors);
+  }
+
   public function testStrHasOnlyDigits(): void
   {
     $errorMessage = 'can have only digits';
@@ -329,6 +368,17 @@ final class YayItemTest extends TestCase
     $this->assertNull($errors);
   }
 
+  public function testStrictMode(): void
+  {
+    $schema = [
+      'name' => Yay::item()->string(),
+      'age' => Yay::item()->integer(),
+    ];
+
+    $errors = $this->yayValidate($schema, ['name' => 'Márcio', 'age' => 18, 'weight' => 63.5], true);
+    $this->assertStringContainsString('is not allowed', $errors['weight']);
+  }
+
   public function testCustom(): void
   {
     $errorMessage = 'not pass in custom validator';
@@ -352,9 +402,9 @@ final class YayItemTest extends TestCase
     $this->assertNull($errors);
   }
 
-  private function yayValidate($schema, $array)
+  private function yayValidate($schema, $array, $strict = false)
   {
-    return Yay::validate($schema, $this->_formatAsObj($array));
+    return Yay::validate($schema, $this->_formatAsObj($array), $strict);
   }
 
   private function _formatAsObj(?array $array)
