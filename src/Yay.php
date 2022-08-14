@@ -174,6 +174,14 @@ class YayItem
     return $this;
   }
 
+  public function bool($message = 'needs to be a boolean value'): YayItem
+  {
+    $this->_addCheck(new YayCheck($message, function ($value) {
+      return is_bool($value);
+    }));
+    return $this;
+  }
+
   public function strIsUpperAlphaNumeric($message = 'can have only uppercase characters'): YayItem
   {
     $this->_addCheck(new YayCheck($message, function ($value) {

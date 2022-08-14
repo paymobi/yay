@@ -338,6 +338,30 @@ final class YayItemTest extends TestCase
     $this->assertNull($errors);
   }
 
+  public function testBool(): void
+  {
+    $schema = ["automatic" => Yay::item()->bool()];
+    $errorMessage = 'needs to be a boolean value';
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => '']);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => 1]);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => []]);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => true]);
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, ['automatic' => false]);
+    $this->assertNull($errors);
+  }
+
   public function testObject(): void
   {
     $schema = [
