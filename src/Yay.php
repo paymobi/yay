@@ -105,6 +105,14 @@ class YayItem
     return $this;
   }
 
+  public function strFloat($message = 'needs to be a float'): YayItem
+  {
+    $this->_addCheck(new YayCheck($message, function ($value) {
+      return is_numeric($value) && is_string($value);
+    }));
+    return $this;
+  }
+
   public function array($message = 'needs to be an array'): YayItem
   {
     $this->isArray = true;

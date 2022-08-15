@@ -81,6 +81,33 @@ final class YayItemTest extends TestCase
     $this->assertNull($errors);
   }
 
+  public function testStrFloat(): void
+  {
+    $schema = ["weight" => Yay::item()->strFloat()];
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertStringContainsString('float', $errors['weight']);
+
+    $errors = $this->yayValidate($schema, array('weight' => 'string'));
+    $this->assertStringContainsString('float', $errors['weight']);
+
+    $errors = $this->yayValidate($schema, array('weight' => []));
+    $this->assertStringContainsString('float', $errors['weight']);
+
+    $errors = $this->yayValidate($schema, array('weight' => 18));
+    $this->assertStringContainsString('float', $errors['weight']);
+
+
+    $errors = $this->yayValidate($schema, array('weight' => 18.5));
+    $this->assertStringContainsString('float', $errors['weight']);
+
+    $errors = $this->yayValidate($schema, array('weight' => '18'));
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, array('weight' => '18.5'));
+    $this->assertNull($errors);
+  }
+
   public function testArray(): void
   {
     $schema = ["names" => Yay::item()->array()];
