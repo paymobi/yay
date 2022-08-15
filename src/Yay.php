@@ -106,10 +106,10 @@ class YayItem
     return $this;
   }
 
-  public function possibleValues(array $possibleValues, $message = 'the only possible values are'): YayItem
+  public function possibleValues(array $possibleValues, $message = 'the only possible values are: '): YayItem
   {
     $this->possibleValues = $possibleValues;
-    $this->_addCheck(new YayCheck('', function ($value) {
+    $this->_addCheck(new YayCheck($message, function ($value) {
       $isValid = true;
       if ($this->isArray) {
         foreach ($value as $v) {
@@ -119,7 +119,7 @@ class YayItem
         $isValid = in_array($value, $this->possibleValues);
       }
 
-      return $isValid ? true : 'the only possible values are: ' . json_encode($this->possibleValues);
+      return $isValid ? true : json_encode($this->possibleValues);
     }));
     return $this;
   }
