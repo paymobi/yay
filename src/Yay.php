@@ -182,6 +182,14 @@ class YayItem
     return $this;
   }
 
+  public function intBool($message = 'needs to be an integer boolean value'): YayItem
+  {
+    $this->_addCheck(new YayCheck($message, function ($value) {
+      return is_int($value) && !is_string($value) && ($value == 0 || $value == 1);
+    }));
+    return $this;
+  }
+
   public function strIsUpperAlphaNumeric($message = 'can have only uppercase characters'): YayItem
   {
     $this->_addCheck(new YayCheck($message, function ($value) {

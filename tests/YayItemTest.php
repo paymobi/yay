@@ -356,6 +356,9 @@ final class YayItemTest extends TestCase
     $errors = $this->yayValidate($schema, ['automatic' => 1]);
     $this->assertStringContainsString($errorMessage, $errors['automatic']);
 
+    $errors = $this->yayValidate($schema, ['automatic' => 0]);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
     $errors = $this->yayValidate($schema, ['automatic' => []]);
     $this->assertStringContainsString($errorMessage, $errors['automatic']);
 
@@ -363,6 +366,36 @@ final class YayItemTest extends TestCase
     $this->assertNull($errors);
 
     $errors = $this->yayValidate($schema, ['automatic' => false]);
+    $this->assertNull($errors);
+  }
+
+  public function testIntBool(): void
+  {
+    $schema = ["automatic" => Yay::item()->intBool()];
+    $errorMessage = 'needs to be an integer boolean value';
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => '']);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => []]);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => true]);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => false]);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => '1']);
+    $this->assertStringContainsString($errorMessage, $errors['automatic']);
+
+    $errors = $this->yayValidate($schema, ['automatic' => 1]);
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, ['automatic' => 0]);
     $this->assertNull($errors);
   }
 
