@@ -47,6 +47,7 @@ class YayItem
   private ?array $numberBetween;
   private ?YayItem $arrayYayItem;
   private $customValidator;
+  private array $possibleValues;
 
   public function validate($value): ?string
   {
@@ -101,6 +102,22 @@ class YayItem
   {
     $this->_addCheck(new YayCheck($message, function ($value) {
       return is_numeric($value) && !is_string($value);
+    }));
+    return $this;
+  }
+
+  public function possibleValues(array $possibleValues, $message = 'the only possible values are'): YayItem
+  {
+    $this->possibleValues = $possibleValues;
+    $this->_addCheck(new YayCheck($message, function ($value) {
+      if ($this->isArray) {
+        foreach ($value as $v) {
+          if (!in_array($v, $this->possibleValues)) return false;
+        }
+        return true;
+      } else {
+        return in_array($value, $this->possibleValues);
+      }
     }));
     return $this;
   }

@@ -108,6 +108,62 @@ final class YayItemTest extends TestCase
     $this->assertNull($errors);
   }
 
+  public function testPossibleValues(): void
+  {
+    // string tests 
+    $schema = ["type" => Yay::item()->string()->possibleValues(['prod', 'hmg'])];
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertArrayHasKey('type', $errors);
+
+    $errors = $this->yayValidate($schema, array('type' => 'string'));
+    $this->assertArrayHasKey('type', $errors);
+
+    $errors = $this->yayValidate($schema, array('type' => 'prod'));
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, array('type' => 'hmg'));
+    $this->assertNull($errors);
+
+
+    // integer tests 
+    $schema = ["type" => Yay::item()->integer()->possibleValues([1, 2, -9])];
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertArrayHasKey('type', $errors);
+
+    $errors = $this->yayValidate($schema, array('type' => []));
+    $this->assertArrayHasKey('type', $errors);
+
+    $errors = $this->yayValidate($schema, array('type' => -9));
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, array('type' => 2));
+    $this->assertNull($errors);
+
+    // array tests 
+    $schema = ["type" => Yay::item()->array()->possibleValues(['prod', 'hmg', 1, 2])];
+
+    $errors = $this->yayValidate($schema, null);
+    $this->assertArrayHasKey('type', $errors);
+
+    $errors = $this->yayValidate($schema, array('type' => [3]));
+    $this->assertArrayHasKey('type', $errors);
+
+    $errors = $this->yayValidate($schema, array('type' => []));
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, array('type' => ['prod']));
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, array('type' => ['hmg']));
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, array('type' => [2]));
+    $this->assertNull($errors);
+  }
+
+
   public function testArray(): void
   {
     $schema = ["names" => Yay::item()->array()];
