@@ -19,7 +19,11 @@ final class YayItemTest extends TestCase
   public function testOptional(): void
   {
     $schema = ["name" => Yay::item()->optional()];
+
     $errors = $this->yayValidate($schema, null);
+    $this->assertNull($errors);
+
+    $errors = $this->yayValidate($schema, ['name' => null]);
     $this->assertNull($errors);
   }
 
